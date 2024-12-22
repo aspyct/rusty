@@ -1,7 +1,18 @@
 [package]
-name = "rusty"
+name = "rusty-security"
+description = "Linux server security utilities"
 version = "0.1.0"
 edition = "2021"
+readme = "README.md"
+license = "GPL-3.0-only"
+homepage = "https://www.rusty-security.com"
+repository = "https://github.com/aspyct/rusty"
+keywords = ["linux", "security", "logs", "cli"]
+categories = ["command-line-utilities"]
+
+[[bin]]
+name = "rusty"
+path = "src/main.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
