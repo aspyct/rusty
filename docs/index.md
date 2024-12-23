@@ -10,7 +10,7 @@ Install it with `cargo`:
 cargo install rsec
 ```
 
-It's very early alpha for now so don't expect it to be stable, but it should be somewhat useful. You can find usage examples in the posts below.
+It's very early alpha for now so don't expect it to be stable, but it should be somewhat useful. You can find usage examples through fun experiments in the posts below.
 
 <h2>Experiments</h2>
 <ul>
