@@ -2,9 +2,15 @@
 layout: default
 ---
 
-Rusty is a set of poorly put together tools to analyze the security events of your linux servers.
+Rusty-security, aka `rsec` is a set of poorly put together tools to analyze the security events of your linux servers.
 
-It's v0.0.0 for now so I wouldn't rely on it too much. Still, it comes with fun documentation and experiments, so it's worth looking into.
+Install it with `cargo`:
+
+```
+cargo install rsec
+```
+
+It's very early alpha for now so don't expect it to be stable, but it should be somewhat useful. You can find usage examples in the posts below.
 
 <h2>Experiments</h2>
 <ul>
