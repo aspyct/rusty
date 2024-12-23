@@ -74,34 +74,44 @@ Here's a quick breakdown of the IPs/hosts I've seen the most in my log file:
 
 **Please note: reverse DNS lookup [cannot be trusted](https://security.stackexchange.com/questions/257426/can-this-logic-with-regard-to-checking-reverse-dns-records-be-flawed). The data that appears below make be entirely wrong, for all I know.**
 
+I'm using `rsec` here to dissect the tcpdump log into json. In particular, we're interested in the `src_group` field, which is either an IP address or, when applicable, the apex domain of the hostname returned by the reverse DNS query. For example, `scan.cypex.ai` becomes `cypex.ai`. This helps when the same apex domain is used for multiple endpoints.
+
+You can install `rsec` with `cargo`. At the time of this writing, the latest version of rsec is 0.1.1.
+
 ```
-# Roughly based on the output of this command:
-$ cut -d ' ' -f 3 tcpdump-syn.log | rev | cut -d. -f2- | sort | rev | uniq -c
+cargo install rsec
+```
 
-79.110.62.244
-79.110.62.242
-80.94.95.176
-*.shadowserver.com
-*.stretchoid.com
-*.bc.googleusercontent.com
-*.ip.linodeusercontent.com
-*.internet-research-project.net
-
-[...]
+```
+$ rsec tcpdump < tcpdump-syn.log | jq -r '.src_group' | sort | uniq -c | sort -nr | head -n 20
+ 242 79.110.62.242
+ 226 79.110.62.244
+ 210 80.94.95.176
+ 206 79.110.62.69
+  99 4vendeta.com
+  92 googleusercontent.com
+  72 linodeusercontent.com
+  50 stretchoid.com
+  50 censys-scanner.com
+  47 web.id
+  39 shadowserver.org
+  37 bufferover.run
+  26 onyphe.net
+  23 internet-measurement.com
+  21 internet-research-project.net
+  20 ovh.ca
+  20 64.226.117.7
+  20 138.197.169.12
 ```
 
 Now, an IP scan isn't really an attack per se. They're just trying to find out if I have something running on a given port.
 There are legitimates reasons why you would scan a host for open ports, but it's also a means to do reconnaissance for future attacks.
 
-One of the well-known names that showed up in the list is [Shodan](https://www.shodan.io/dashboard). Shodan is a search engine that is commonly used
-for recon prior to a vulnerability enumeration.
+One of the well-known names that showed up in the list is [Shodan](https://www.shodan.io/dashboard). Shodan is a search engine that is commonly used for recon prior to a vulnerability enumeration.
 
-Shadowserver is possibly related to [shadowserver.org](https://www.shadowserver.org). They are apparently funded by the UK government, and offer a [public dashboard](https://dashboard.shadowserver.org/)
-with a fair amount of data available on it.
+Shadowserver is possibly related to [shadowserver.org](https://www.shadowserver.org). They are apparently funded by the UK government, and offer a [public dashboard](https://dashboard.shadowserver.org/) with a fair amount of data available on it.
 
-I'm mostly fine with these two above, since they're offering a public service and are of value for my security assessments.
-
-Others seem more obscure, and don't say what they use that data for, or flat out don't exist online. As for the IP addresses, well... I can only assume they're trying find vulnerabilities.
+I won't make any conclusion here as to the legitimacy of the names we see in the list above, as I don't have enough information about those. All I know is that I didn't invite their scanners to a party.
 
 ## SSH logs
 
