@@ -72,7 +72,7 @@ Finally, the last two lines are someone trying to connect to my SSH server. We w
 
 Here's a quick breakdown of the IPs/hosts I've seen the most in my log file:
 
-**Please note: reverse DNS lookup [cannot be trusted](https://security.stackexchange.com/questions/257426/can-this-logic-with-regard-to-checking-reverse-dns-records-be-flawed). The data that appears below make be entirely wrong, for all I know.**
+**Please note: reverse DNS lookup [cannot be trusted](https://security.stackexchange.com/questions/257426/can-this-logic-with-regard-to-checking-reverse-dns-records-be-flawed). The data that appears below may be entirely wrong, for all I know.**
 
 I'm using `rsec` here to dissect the tcpdump log into json. In particular, we're interested in the `src_group` field, which is either an IP address or, when applicable, the apex domain of the hostname returned by the reverse DNS query. For example, `scan.cypex.ai` becomes `cypex.ai`. This helps when the same apex domain is used for multiple endpoints.
 
