@@ -107,7 +107,7 @@ $ rsec tcpdump < tcpdump-syn.log | jq -r '.src_group' | sort | uniq -c | sort -n
 Now, an IP scan isn't really an attack per se. They're just trying to find out if I have something running on a given port.
 There are legitimates reasons why you would scan a host for open ports, but it's also a means to do reconnaissance for future attacks.
 
-One of the well-known names that showed up in the list is [Shodan](https://www.shodan.io/dashboard). Shodan is a search engine that is commonly used for recon prior to a vulnerability enumeration.
+One of the well-known names that showed up in the list (but hidden by `head -n 20`) is [Shodan](https://www.shodan.io/dashboard). Shodan is a search engine that is commonly used for recon prior to a vulnerability enumeration.
 
 Shadowserver is possibly related to [shadowserver.org](https://www.shadowserver.org). They are apparently funded by the UK government, and offer a [public dashboard](https://dashboard.shadowserver.org/) with a fair amount of data available on it.
 
