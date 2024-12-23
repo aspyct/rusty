@@ -2,6 +2,6 @@ theme: jekyll-theme-minimal
 title: Rusty
 description: Bite my shiny metal hooves!
 show_downloads: false
-remote_theme: pages-themes/tactile@v0.2.0
+remote_theme: pages-themes/primer@v0.2.0
 plugins:
 - jekyll-remote-theme
