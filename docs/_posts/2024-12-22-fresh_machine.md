@@ -79,7 +79,7 @@ I'm using `rsec` here to dissect the tcpdump log into json. In particular, we're
 You can install `rsec` with `cargo`. At the time of this writing, the latest version of rsec is 0.1.1.
 
 ```
-cargo install rsec
+cargo install --version 0.1.1 rsec
 ```
 
 ```
