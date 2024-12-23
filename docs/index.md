@@ -4,6 +4,8 @@ layout: default
 
 Rusty-security, aka `rsec` is a set of poorly put together tools to analyze the security events of your linux servers.
 
+![Rusty](/assets/images/rsec.jpg)
+
 Install it with `cargo`:
 
 ```
