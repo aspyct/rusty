@@ -66,28 +66,25 @@ fn parse_tcpdump_line(line: &str, re: &Regex) {
             let time = &caps[1];
             let src = &caps[2];
             let dst = &caps[3];
-            print!(r#"{{"time": "{time}", "src.raw": "{src}", "dst.raw": "{dst}""#);
+            print!(r#"{{"time": "{time}", "src_raw": "{src}", "dst_raw": "{dst}""#);
 
-            if let Some((host, port)) = split_host_and_port(&src) {
-                print!(r#", "src.host": "{host}", "src.port": "{port}""#);
-
-                if let Some(apex) = parse_apex_domain(host) {
-                    print!(r#", "src.apex": "{apex}""#);
-                }
-            }
-
-            if let Some((host, port)) = split_host_and_port(&dst) {
-                print!(r#", "dst.host": "{host}", "dst.port": "{port}""#);
-
-                if let Some(apex) = parse_apex_domain(host) {
-                    print!(r#", "dst.apex": "{apex}""#);
-                }
-            }
+            print_host_details("src", src);
+            print_host_details("dst", dst);
 
             println!(r#"}}"#);
         },
         None => {
             eprintln!("Could not parse line: {line}");
+        }
+    }
+}
+
+fn print_host_details(name: &str, host: &str) {
+    if let Some((host, port)) = split_host_and_port(&host) {
+        print!(r#", "{name}_host": "{host}", "{name}_port": "{port}""#);
+
+        if let Some(group) = parse_host_group(host) {
+            print!(r#", "{name}_group": "{group}""#);
         }
     }
 }
@@ -103,11 +100,11 @@ fn split_host_and_port(combined: &str) -> Option<(&str, &str)> {
     };
 }
 
-fn parse_apex_domain(host: &str) -> Option<&str> {
+fn parse_host_group(host: &str) -> Option<&str> {
     let Some(last_char) = host.chars().last() else { return None; };
 
     // Can't be a hostname if the last char is a number
-    if last_char.is_ascii_digit() { return None; } 
+    if last_char.is_ascii_digit() { return Some(host); }
 
     // Ok, so it's probably a hostname.
     // First find where the tld starts
