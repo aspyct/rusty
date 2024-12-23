@@ -70,16 +70,14 @@ Finally, the last two lines are someone trying to connect to my SSH server. We w
 
 ## It's a SYN!
 
-Here's a quick breakdown of the IPs/hosts I've seen the most in my log file:
+Let's identify who is scanning us the most. `rsec` provides a handy tcpdump to json converter to help us with that.
 
-**Please note: reverse DNS lookup [cannot be trusted](https://security.stackexchange.com/questions/257426/can-this-logic-with-regard-to-checking-reverse-dns-records-be-flawed). The data that appears below may be entirely wrong, for all I know.**
-
-I'm using `rsec` here to dissect the tcpdump log into json. In particular, we're interested in the `src_group` field, which is either an IP address or, when applicable, the apex domain of the hostname returned by the reverse DNS query. For example, `scan.cypex.ai` becomes `cypex.ai`. This helps when the same apex domain is used for multiple endpoints.
+In particular, we're interested in the `src_group` field, which is either an IP address or, when applicable, the apex domain of the hostname returned by the reverse DNS query. For example, `scan.cypex.ai` becomes `cypex.ai`. This helps when the same apex domain is used for multiple endpoints.
 
 You can install `rsec` with `cargo`. At the time of this writing, the latest version of rsec is 0.1.1.
 
 ```
-cargo install --version 0.1.1 rsec
+$ cargo install --version 0.1.1 rsec
 ```
 
 ```
@@ -107,7 +105,9 @@ $ rsec tcpdump < tcpdump-syn.log | jq -r '.src_group' | sort | uniq -c | sort -n
 Now, an IP scan isn't really an attack per se. They're just trying to find out if I have something running on a given port.
 There are legitimates reasons why you would scan a host for open ports, but it's also a means to do reconnaissance for future attacks.
 
-One of the well-known names that showed up in the list (but hidden by `head -n 20`) is [Shodan](https://www.shodan.io/dashboard). Shodan is a search engine that is commonly used for recon prior to a vulnerability enumeration.
+**Please note: reverse DNS lookup [cannot be trusted](https://security.stackexchange.com/questions/257426/can-this-logic-with-regard-to-checking-reverse-dns-records-be-flawed). The data that appears below may be entirely wrong, for all I know.**
+
+One of the well-known names that showed up in the list (but hidden by `head -n 20`) is [Shodan](https://www.shodan.io/dashboard), a search engine that is commonly used for recon prior to a vulnerability enumeration.
 
 Shadowserver is possibly related to [shadowserver.org](https://www.shadowserver.org). They are apparently funded by the UK government, and offer a [public dashboard](https://dashboard.shadowserver.org/) with a fair amount of data available on it.
 
