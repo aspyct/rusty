@@ -3,7 +3,7 @@ layout: post
 title: "Painting a big red target on my server"
 ---
 
-During our [previous experiment]({% post_url 2024-12-22-fresh-machine %}), we saw a total of 300 SSH login attempts within 3 hours of spinning up a new server. That was with key-only ssh login.
+During our [previous experiment]({% post_url 2024-12-22-fresh_machine %}), we saw a total of 300 SSH login attempts within 3 hours of spinning up a new server. That was with key-only ssh login.
 
 Let's paint a big red target on my server and enable password login!
 
