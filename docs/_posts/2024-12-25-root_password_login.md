@@ -168,8 +168,10 @@ Jokes aside, with key-only login, we had around 100 attempts per hour. With pass
 
 I would also take the precaution to whitelist the users who can login, if applicable in your case. You can use `AllowUsers` for that in your sshd_config file. See `man sshd_config` for more details.
 
-> AllowUsers
->             This keyword can be followed by a list of user name patterns, separated by spaces. If specified, login is allowed only for user names that match one of the patterns. [...]
+```
+AllowUsers
+  This keyword can be followed by a list of user name patterns, separated by spaces. If specified, login is allowed only for user names that match one of the patterns. [...]
+```
 
 ## Annex: Complete list of usernames
 
