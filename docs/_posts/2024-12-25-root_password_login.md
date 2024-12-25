@@ -176,7 +176,7 @@ AllowUsers
 ## Annex: Complete list of usernames
 
 ```
-$ jq -r .username failed_logins.ndjson | sort | uniq
+$ jq -r .username failed_logins.ndjson | sort | uniq -c | sort -nr
  380 root
  103 ubuntu
   99 admin
