@@ -28,6 +28,7 @@ fn show_usage() {
 fn process_command(command: String, args: Args) {
     match command.as_str() {
         "tcpdump" => parse_tcpdump(args),
+        "ssh" => parse_ssh(args),
         _ => unknown_command(&command),
     }
 }
@@ -117,6 +118,62 @@ fn parse_host_group(host: &str) -> Option<&str> {
         },
         None => {
             return Some(&host);
+        }
+    }
+}
+
+fn parse_ssh(_args: Args) {
+    // Parse failed password login attempts from sshd logs
+    // journalctl -u ssh.service > ssh.log
+    // Example lines:
+    // Dec 25 20:16:35 <hostname> sshd[992]: Invalid user opc from 137.184.84.118 port 58260
+    // Dec 25 20:16:43 <hostname> sshd[994]: Failed password for root from 137.184.84.118 port 38640 ssh2
+    let re = Regex::new(r"(?xi)
+        ^
+        (?P<time>\w\w\w\s\d\d\s\d\d:\d\d:\d\d)
+        \s
+        (?P<hostname>[^\s]+)
+        \ssshd\[
+        (?P<pid>\d+)
+        \]:\s
+        (?:failed\spassword\sfor|invalid\suser)
+        \s
+        (?P<username>[^\s]+)
+        \sfrom\s
+        (?P<ip>[^\s]+)
+        \sport\s
+        (?<port>\d+)
+    ").unwrap();
+
+    let stdin = io::stdin();
+    for line in stdin.lock().lines() {
+        match line {
+            Ok(line) => {
+                parse_ssh_line(line.as_str(), &re);
+            },
+            Err(_e) => {
+                eprintln!("Could not read line from stdin");
+            }
+        }
+    }
+}
+
+fn parse_ssh_line(line: &str, re: &Regex) {
+    match re.captures(&line) {
+        Some(caps) => {
+            let time = &caps[1];
+            let hostname = &caps[2];
+            let pid = &caps[3];
+            let username = &caps[4];
+            let ip = &caps[5];
+            let port = &caps[6];
+
+            println!(r#"{{"time": "{time}", "hostname": "{hostname}", "pid": "{pid}", "username": "{username}", "ip": "{ip}", "port": "{port}"}}"#);
+        },
+        None => {
+            // Do nothing
+            // Unless there's some kind of debug flag enabled
+            // eprintln!("Could not parse line: {line}");
         }
     }
 }
