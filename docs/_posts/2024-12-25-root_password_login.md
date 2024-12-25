@@ -166,7 +166,7 @@ It's probably better to disable password login for SSH, if only to save your poo
 
 Jokes aside, with key-only login, we had around 100 attempts per hour. With passwords enabled, that bumped up to over 600 attempts per hour. And that's for a fresh server. If you have weak passwords, you are bound to be hacked into sooner or later.
 
-I would also take the precaution to whitelist the users who can login, if applicable. That way, you won't unknowingly open an access when installing a service with a bad base security configuration.
+I would also take the precaution to whitelist the users who can login, if applicable. That way, you won't unknowingly open an access when installing a service with a bad default security configuration.
 
 You can use `AllowUsers` for that in your sshd_config file. See `man sshd_config` for more details.
 
